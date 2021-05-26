@@ -25,8 +25,8 @@ app.listen(port, function(err) {
     }
 });
 
-/*const module = module.exports; 
+const module = module.exports; 
 module.exports = app;
-const require = (' ./loader.js');*/
+const require = (' ./loader.js');
 
 
