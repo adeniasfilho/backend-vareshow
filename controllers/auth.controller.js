@@ -38,9 +38,9 @@ const connect = require("../configBD/connectMySQL");
 const jsonMessagesPath = __dirname + "/../assets/jsonMessages";
 const jsonMessages = require(jsonMessagesPath + "bd");
 
-function readCdstrCesta(req, res) {
+function readCesta(req, res) {
     const idCesta = req.sanitize("idCesta").escape();
-    const idPedido = req.sanitize("idpedido").escape();
+    const idPedido = req.sanitize("idPedido").escape();
     const idLojista = req.sanitize("idLojista").escape();
     const idCliente = req.sanitize("idCliente").escape();
     
@@ -291,7 +291,7 @@ function saveCliente(req, res) {
     const cpf = req.sanitize("cpf").escape();
     const telefone = req.sanitize("telefone").escape();
     const email = req.sanitize("email").escape();
-    const lojista = req.sanitize("lojista").escape();
+    const idLojista = req.sanitize("lojista").escape();
     const idCesta = req.sanitize("idCesta").escape();
 
     if (idCliente != "NULL" && idCesta != "NULL" && typeof(idCliente) != "undefined" &&
@@ -349,9 +349,120 @@ function readCdstrLojista(req, res) {
         }
     });
 }
-   
 
+function saveLojista(req, res) {
+    const idLojista = req.sanitize("idLojista").escape();
+    const cnpj = req.sanitize("cnpj").escape();
+    const razaoSocial = req.sanitize("razaoSocial").escape();
+    const nomeFantasia = req.sanitize("nomeFantasia").escape();
+    const idCliente = req.sanitize("idCliente").escape();
+    req.checkParams("idLojista", "Insira um email válido.") .isEmail();
 
+    if (idLojista != "NULL" && idCesta != "NULL" && typeof(idLojista) != "undefined" &&
+    typeof(idCesta) != "undefined") {
+        const post = { idCliente:  idCliente, idCesta: idCesta };
+        const query = connect.con.query("INSERT INTO cdstr_lojista SET ?",
+        post, (err, rows, fields) => {
+            console.log(query.sql);
+            if (!err) {
+                res.status(jsonMessages.db.successInsert.status)
+                   .send(jsonMessages.db.successInsert);
+            }
+            else {
+                console.log(err);
+                if (err.code == "ERR_DUPLICADO_ENTRY") {
+                    res.status(jsonMessages.db.duplicateEmail.status)
+                    .send(jsonMessages.db.dbError);
+                }
+            }
+        });
+    }
+    else {
+        res.status(jsonMessages.db.requireData.status)
+           .send(jsonMessages.db.requireData);
+    }
+}
+
+function deleteCesta(req, res) {
+    const idCesta = req.sanitize("idCesta").escape();
+    const idLojista = req.sanitize("idLojista").escape();
+    const params = [idCesta, idLojista];
+    const query = connect.con.query("DELETE FROM cdstr_lojista WHERE idCesta = ? AND  idLojista = ?",
+        params, (err, rows, fields) => {
+            console.log(query.sql);
+            if (!err) {
+                res.status(200).json(cesta);
+                   
+            }
+            else {
+                res.status(jsonMessages.db.errDelete.status)
+                   .send(jsonMessages.db.errDelete);
+            }
+        })
+}
+
+function deleteCdstrCliente(req, res) {
+    const idCliente = req.sanitize("idCliente").escape();
+    const idCesta = req.sanitize("idCesta").escape();
+    const params = [idCliente, idCesta];
+    const query = connect.con.query("DELETE FROM cdrst_cliente WHERE idCesta = ? AND idCesta = ?",
+        params, (err, rows, fields) => {
+            console.log(query.sql);
+            if (!err) {
+                res.status(200).json(cliente);
+                   
+            }
+            else {
+                res.status(jsonMessages.db.errDelete.status)
+                .send(jsonMessages.db.errDelete);
+            }
+        })
+}
+
+function deleteCdstrLojista(req, res) {
+    const idLojista = req.sanitize("idLojista").escape();
+    const idCesta = req.sanitize("idCesta").escape();
+    const params = [idLojista, idCesta];
+    const query = connect.con.query("DELETE FROM cdstr_lojista WHERE idCesta = ? AND idCesta = ?",
+        params, (err, rows, fields) => {
+            console.log(query.sql);
+            if (!err) {
+                res.status(200).json(lojista);
+                   
+            }
+            else {
+                res.status(jsonMessages.db.errDelete.status)
+                .send(jsonMessages.db.errDelete);
+            }
+        })
+}
+
+function deleteCdstrProduto(req, res) {
+    const idProduto = req.sanitize("idProduto").escape();
+    const idCesta = req.sanitize("idCesta").escape();
+    const params = [idProduto, idCesta];
+    const query = connect.con.query("DELETE FROM cdstr_produto WHERE idCesta = ?",
+        params, (err, rows, fields) => {
+            console.log(query.sql);
+            if (!err) {
+                res.status(200).json(produto);
+            }
+            else {
+                res.status(jsonMessages.db.errDelete.status)
+                   .send(jsonMessages.db.errDelete);
+            }
+        })
+}
+
+module.exports = {
+    readCesta: readCesta, readCestaID: readCestaID,
+    readPagamento: readPagamento, savePagamento: savePagamento,
+    readCdstrProduto: readCdstrProduto, saveProduto: saveProduto,
+    readCdstrCliente: readCdstrCliente, saveCliente: saveCliente,
+    readCdstrLojista: readCdstrLojista, saveLojista: saveLojista,
+    deleteCesta: deleteCesta, deleteCdstrCliente: deleteCdstrCliente,
+    deleteCdstrLojista: deleteCdstrLojista, deleteCdstrProduto: deleteCdstrProduto 
+}
 
 
 
