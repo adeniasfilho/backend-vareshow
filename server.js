@@ -1,12 +1,18 @@
-const host = process.env.HOST || '127.0.0.1';
+/*const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 8080;
-import express from 'express';
+import express from 'express';*/
+
+import { createServer } from 'http';
+import express, { json, static } from 'express';
 const app = express();
+app.use = (express.json());
+const porta = 3000;
+app.set('port', porta);
+const server = createServer(app);
+server.listen(3000); 
 
-
-
-app.use('/assets', express.static('assets'));
-app.use('/views', express.static('views'));
+app.use('/assets', static('assets'));
+app.use('/views', static('views'));
 
 import cors from 'cors';
 app.use(cors());
@@ -25,8 +31,8 @@ app.listen(port, function(err) {
     }
 });
 
-const module = module.exports; 
-module.exports = app;
-const require = (' ./loader.js');
+
+export default app;
+require = (' ./loader.js');
 
 
