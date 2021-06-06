@@ -1,0 +1,9 @@
+{
+    "MySQL": {
+        "username": "vareshow",
+        "password": "vareshow123",
+        "database": "vareshow",
+        "host": "localhost",
+        "dialect": "mysql"
+    }
+}

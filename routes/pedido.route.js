@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 router.use(express.json());
-const pedidoClienteDB = require("../model/pedidoClienteDB");
+const pedidoDB = require("../model/pedidoDB");
 const { INTEGER } = require('sequelize/types');
 
 let contador = 0;
 
-let pedidoCliente = [
+let pedido = [
     {
         id: INTEGER,
         idCliente: INTEGER,
@@ -15,7 +15,7 @@ let pedidoCliente = [
     }
 ];
 
-let pedidoClienteDB = [];
+pedido = [];
 
 router.get('/', (req, res, next) => {
     pedidoClienteDB.getPedidoCliente((pedidoCliente) => {

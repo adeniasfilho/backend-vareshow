@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt-nodejs');
 module.exports = (passport, user) => {
     const User = user;
     const LocalStrategy = require('passport-local').Strategy;
+    
     passport.serializeUser((user, done) => {
         User.findById(id) .then((user) => {
             if (user) {
@@ -12,10 +13,9 @@ module.exports = (passport, user) => {
             }
         });
     });
-
     passport.use('local-signup', new LocalStrategy({
         passwordField: 'email',
         passwordField: 'password',
         passReqToCallback: true 
-    }))
+    }));
 }

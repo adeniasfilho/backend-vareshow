@@ -3,8 +3,8 @@ const controllerLojista = require('../controllers/lojista.controller.js');
 const controllerCliente = require('../controllers/cliente.controller.js');
 const controllerEmail = require('../controllers/email.controller.js');
 const controllerProduto = require('../controllers/produto.controller.js');
-const controllerPedido = require('../controllers/pedido.controller.js');
-const controllerCesta = require('../controllers/cesta.controller.js');
+const controllerPedidoCliente = require('../controllers/pedidoCliente.controller.js');
+const controllerCestaCliente = require('../controllers/cestaCliente.controller.js');
 const controllerPagamento = require('../controllers/pagamento.controller.js');
 const controllerUser = require('../controllers/user.controller.js');
 
