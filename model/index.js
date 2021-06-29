@@ -3,6 +3,10 @@
 import { readdirSync } from "fs";
 import { join } from "path";
 import Sequelize from "sequelize";
+
+const fs = require("fs");
+const path = require("path");
+const Sequelize = require("sequelize");
 const env = "MySQL";
 const config = require(join(__dirname, "../", "congig",
     "config.json")) [env];

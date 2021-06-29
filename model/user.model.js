@@ -15,5 +15,5 @@ module.exports = (sequelize, Sequelize) => {
         defaultValue: "active"}
 
     });
-    return user;
+    return User;
 }
